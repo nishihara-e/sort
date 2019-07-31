@@ -24,25 +24,23 @@ int quick_select(int A[], int n, int k){
   pivot = A[n/2];
   A[n/2] = A[0];
   A[0] = pivot;
+  int t=1;
   for(i = j = 1; i < n; i++){
     if(A[i] <= pivot){
       swap(A+i, A+j);
+      if(A[j]==pivot){
+        swap(A+t,A+j);
+        t++;
+      }
       j++;
     }
   }
-  for(i=0;i<j;i++){
-    if(A[i]<pivot){
-      swap(A+i,A+a);
-      a++;
-    }
-  }
 
-
-  if(a<k && k<j) return pivot;
+  if(j==k+1) return pivot;
   else if(j < k+1) return quick_select(A+j, n-j, k-j);
-  else return quick_select(A, a+1, k);
+  else if(j-t-1<k) return pivot;
+  else return quick_select(A, j-t, k);
 }
-
 
 int main(){
   int i;
